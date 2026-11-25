@@ -1,12 +1,10 @@
 /* Halora — data produk terpusat
-   Semua harga dalam Rupiah. Visual cincin adalah potongan (crop) foto hero
-   (1920 x 1084): Rose Gold dari assets/halora-hero.webp; Perak dan Hitam
-   dari varian foto yang sama dengan finishing cincin diganti
-   (assets/halora-hero-perak.webp / halora-hero-hitam.webp, dibuat
-   2026-11-25 atas permintaan user). Aksesori memakai ilustrasi SVG. */
+   Semua harga dalam Rupiah. Visual cincin adalah foto produk mandiri
+   bergaya katalog toko (cincin saja tanpa tangan, latar sage polos):
+   assets/ring-rose-gold.webp, ring-perak.webp, ring-hitam.webp
+   (dibuat 2026-11-25 atas permintaan user). Aksesori memakai
+   ilustrasi SVG. */
 var HERO_IMG = "assets/halora-hero.webp";
-var IMG_PERAK = "assets/halora-hero-perak.webp";
-var IMG_HITAM = "assets/halora-hero-hitam.webp";
 var PHOTO_W = 1920, PHOTO_H = 1084;
 
 /* Kotak potong pada foto hero: [x, y, lebar, tinggi] dalam piksel foto.
@@ -22,7 +20,7 @@ var PRODUCTS = [
     id: 1, slug: "halora-rose-gold", name: "Halora Ring — Rose Gold",
     category: "cincin", finish: "Rose Gold",
     price: 4899000, promoPrice: 4399000, rating: 4.9, reviews: 132, badge: "Promo",
-    visual: "photo", crop: CROP_RING,
+    visual: "product", img: "assets/ring-rose-gold.webp",
     tagline: "Finishing rose gold yang hangat, pita dalam hitam matte.",
     desc: "Cincin pintar Halora dengan sensor optik generasi terbaru untuk tidur, pemulihan, stres, detak jantung, dan aktivitas. Bodi titanium ringan dengan lapisan rose gold, tahan air 10 ATM, dan baterai hingga 7 hari."
   },
@@ -30,7 +28,7 @@ var PRODUCTS = [
     id: 2, slug: "halora-perak", name: "Halora Ring — Perak",
     category: "cincin", finish: "Perak",
     price: 4899000, promoPrice: null, rating: 4.8, reviews: 98, badge: "",
-    visual: "photo", crop: CROP_RING, img: IMG_PERAK,
+    visual: "product", img: "assets/ring-perak.webp",
     tagline: "Perak dipoles cermin, tenang dan serbaguna.",
     desc: "Sensor dan fitur yang sama dengan finishing perak klasik. Bodi titanium ringan, pita dalam hitam matte, tahan air 10 ATM, dan baterai hingga 7 hari untuk pemantauan 24/7 tanpa terasa memakai apa pun."
   },
@@ -38,7 +36,7 @@ var PRODUCTS = [
     id: 3, slug: "halora-hitam", name: "Halora Ring — Hitam",
     category: "cincin", finish: "Hitam",
     price: 4899000, promoPrice: null, rating: 4.9, reviews: 57, badge: "Baru",
-    visual: "photo", crop: CROP_RING, img: IMG_HITAM,
+    visual: "product", img: "assets/ring-hitam.webp",
     tagline: "Hitam matte yang tegas, tetap ringan di jari.",
     desc: "Edisi hitam matte dengan rangkaian sensor lengkap Halora: tahap tidur, HRV, suhu kulit, dan skor kesiapan harian. Bodi titanium, tahan air 10 ATM, baterai hingga 7 hari."
   },
@@ -114,8 +112,11 @@ function accessorySVG(kind) {
     '<circle cx="100" cy="86" r="6" fill="#1E3227"/><circle cx="100" cy="86" r="2.4" fill="#CBCFB8"/></svg>';
 }
 
-/* HTML visual produk: foto crop untuk cincin, SVG untuk aksesori. */
+/* HTML visual produk: foto produk penuh untuk cincin, SVG untuk aksesori. */
 function productVisual(p, cls) {
+  if (p.visual === "product") {
+    return '<span class="' + cls + ' photo-crop" style="background-image:url(\'' + p.img + '\');background-size:cover;background-position:center;aspect-ratio:1/1;" role="img" aria-label="' + p.name + '"></span>';
+  }
   if (p.visual === "photo") {
     return '<span class="' + cls + ' photo-crop" style="' + cropStyle(p.crop, p.img) + '" role="img" aria-label="' + p.name + '"></span>';
   }
