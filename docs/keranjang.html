@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Keranjang — Halora</title>
+<meta name="description" content="Keranjang belanja Halora (demo).">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+<header class="site-header" data-site-header></header>
+<main>
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow">Keranjang</span>
+      <h1>Keranjang Kamu</h1>
+      <p>Periksa kembali pilihanmu sebelum checkout. Kit pengukur ukuran selalu menyertai setiap cincin.</p>
+    </div>
+  </section>
+  <section class="section" style="padding-top:30px">
+    <div class="container two-col">
+      <div class="summary-card">
+        <div id="cartPageItems"></div>
+      </div>
+      <div class="summary-card">
+        <h3>Ringkasan</h3>
+        <div class="drawer-row"><span>Subtotal</span><strong id="cartPageSubtotal">Rp0</strong></div>
+        <div class="drawer-row total"><span>Total</span><strong id="cartPageTotal">Rp0</strong></div>
+        <p style="color:var(--forest-2);font-size:13.5px;margin-top:8px">Diskon voucher dihitung saat checkout.</p>
+        <a class="btn btn-dark btn-block" href="checkout.html">Lanjut ke Checkout</a>
+        <a class="btn btn-ghost btn-block" href="produk.html">Kembali Belanja</a>
+      </div>
+    </div>
+  </section>
+</main>
+<footer class="site-footer" data-site-footer></footer>
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/components.js"></script>
+<script src="js/app.js"></script>
+<script src="js/checkout.js"></script>
+</body>
+</html>

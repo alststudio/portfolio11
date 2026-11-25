@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Halora — Cincin Pintar untuk Kesehatan</title>
+<meta name="description" content="Halora: cincin pintar yang memantau tidur, pemulihan, stres, detak jantung, dan aktivitas selama 24/7.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/responsive.css">
+<script>
+  if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    document.documentElement.classList.add("hero-pre");
+  }
+</script>
+<style>
+  /* ============ HERO HALORA (inline, satu layar) ============ */
+  .hero {
+    position: relative; height: 100svh; min-height: 640px; overflow: hidden;
+    background: #CBCFB8;
+  }
+  .hero-stage {
+    position: absolute; inset: 0;
+    --s: 0.7;
+    font-family: "Inter", system-ui, sans-serif; color: #1E3227;
+  }
+  .hero-pre .hero-stage .anim { opacity: 0; }
+
+  /* Lapisan foto & video: kotak, jangkar, dan mask yang sama persis.
+     Foto dipasang setinggi viewport dan berjangkar di bawah; pada layar
+     sangat lebar foto berhenti membesar dan sisinya memudar ke latar sage. */
+  .hero-media { position: absolute; inset: 0; overflow: hidden; }
+  .hero-layer {
+    position: absolute; left: 50%; bottom: 0;
+    width: calc(2048 * var(--s)); height: calc(1152 * var(--s));
+    transform: translateX(-50%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 calc((100vw - 2048 * var(--s)) / 2 + 30 * var(--s)), #000 calc(100% - ((100vw - 2048 * var(--s)) / 2 + 30 * var(--s))), transparent 100%);
+            mask-image: linear-gradient(to right, transparent 0, #000 calc((100vw - 2048 * var(--s)) / 2 + 30 * var(--s)), #000 calc(100% - ((100vw - 2048 * var(--s)) / 2 + 30 * var(--s))), transparent 100%);
+  }
+  .hero-photo {
+    background-image: url("assets/halora-hero.webp");
+    background-size: cover; background-position: center bottom; background-repeat: no-repeat;
+  }
+  .hero-video { object-fit: cover; object-position: center bottom; opacity: 0; transition: opacity 0.9s linear; }
+  .hero-video.on { opacity: 1; }
+
+  /* Header hero */
+  .hero-header {
+    position: absolute; top: 0; left: 0; right: 0; z-index: 5;
+    display: flex; align-items: center;
+    padding: calc(30 * var(--s)) calc(80 * var(--s)) 0;
+  }
+  .hero-logo {
+    display: inline-flex; align-items: center; gap: calc(13 * var(--s));
+    font-size: calc(35 * var(--s)); font-weight: 600; letter-spacing: -0.01em;
+    color: #1E3227; text-decoration: none; line-height: 1;
+  }
+  .hero-logo svg { width: calc(40 * var(--s)); height: calc(40 * var(--s)); }
+  .hero-nav {
+    position: absolute; left: 50%; transform: translateX(-50%);
+    display: flex; gap: calc(54 * var(--s));
+  }
+  .hero-nav a {
+    font-size: calc(22 * var(--s)); font-weight: 500; color: #1E3227; text-decoration: none;
+  }
+  .hero-nav a:hover { opacity: 0.65; }
+  .hero-actions { margin-left: auto; display: flex; align-items: center; gap: calc(14 * var(--s)); }
+  .pill {
+    display: inline-flex; align-items: center; gap: calc(9 * var(--s));
+    font-size: calc(19 * var(--s)); font-weight: 600; text-decoration: none;
+    padding: calc(13 * var(--s)) calc(24 * var(--s)); border-radius: 999px; line-height: 1;
+  }
+  .pill-cart {
+    background: rgba(62, 86, 70, 0.52); color: #F2F3E6;
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    border: none; cursor: pointer; font-family: inherit;
+  }
+  .pill-cart svg { width: calc(21 * var(--s)); height: calc(21 * var(--s)); }
+  .pill-cart .cart-badge { position: static; margin-left: 2px; }
+  .pill-dark { background: #1E3227; color: #F5F4EC; }
+  .pill-dark:hover { background: #2A4636; }
+  .hero-burger {
+    display: none; width: 46px; height: 46px; border-radius: 50%;
+    background: rgba(62, 86, 70, 0.52); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    align-items: center; justify-content: center; flex-direction: column; gap: 5px; border: none; cursor: pointer;
+  }
+  .hero-burger span { width: 20px; height: 2px; background: #F2F3E6; border-radius: 2px; }
+  .hero-menu {
+    display: none; position: absolute; top: calc(100% + 10px); right: 0; z-index: 6;
+    min-width: 230px; padding: 14px; border-radius: 20px;
+    background: rgba(203, 207, 184, 0.78); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(30, 50, 39, 0.18);
+  }
+  .hero-menu.open { display: block; }
+  .hero-menu a, .hero-menu button {
+    display: block; width: 100%; text-align: left; padding: 11px 12px;
+    font-size: 16px; font-weight: 500; color: #1E3227; text-decoration: none;
+    background: none; border: none; cursor: pointer; font-family: inherit;
+  }
+
+  /* Salinan kiri */
+  .hero-copy {
+    position: absolute; left: calc(80 * var(--s)); top: 50%; transform: translateY(-50%);
+    z-index: 4; max-width: calc(680 * var(--s));
+  }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: calc(11 * var(--s));
+    font-size: calc(20 * var(--s)); font-weight: 600; letter-spacing: 0.18em;
+    text-transform: uppercase; color: #3F5447;
+  }
+  .eyebrow-dot {
+    width: calc(11 * var(--s)); height: calc(11 * var(--s)); border-radius: 50%;
+    background: #9B8A3E; flex: none;
+  }
+  .hero-title {
+    margin-top: calc(26 * var(--s));
+    font-size: calc(69 * var(--s)); font-weight: 600; line-height: 1.07; letter-spacing: -0.015em;
+    color: #1E3227;
+  }
+  .h-mask { display: block; overflow: hidden; }
+  .h-line { display: block; will-change: transform; }
+  .hero-para {
+    margin-top: calc(28 * var(--s)); max-width: calc(560 * var(--s));
+    font-size: calc(21.5 * var(--s)); line-height: 1.55; color: #3F5447;
+  }
+  .hero-cta { margin-top: calc(38 * var(--s)); display: inline-flex; }
+  .hero-cta .pill { font-size: calc(20 * var(--s)); padding: calc(17 * var(--s)) calc(34 * var(--s)); }
+
+  /* Kartu metrik kanan */
+  .hero-metrics {
+    position: absolute; right: calc(80 * var(--s)); top: 50%; transform: translateY(-50%);
+    z-index: 4; display: flex; flex-direction: column; gap: calc(24 * var(--s));
+  }
+  .metric-card-hero {
+    width: calc(222 * var(--s)); height: calc(160 * var(--s));
+    border-radius: calc(20 * var(--s));
+    background: rgba(233, 235, 221, 0.42);
+    border: 1px solid rgba(30, 50, 39, 0.28);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    padding: calc(19 * var(--s)) calc(22 * var(--s));
+    display: flex; flex-direction: column;
+  }
+  .metric-card-hero .m-label {
+    display: flex; align-items: center; gap: calc(9 * var(--s));
+    font-size: calc(15.5 * var(--s)); font-weight: 700; letter-spacing: 0.18em; color: #1E3227;
+  }
+  .metric-card-hero .m-label svg { width: calc(21 * var(--s)); height: calc(21 * var(--s)); flex: none; }
+  .metric-card-hero .m-value {
+    font-family: "Poppins", sans-serif; font-weight: 300;
+    font-size: calc(52 * var(--s)); line-height: 1.1; margin-top: auto;
+  }
+  .metric-card-hero .m-sub {
+    font-size: calc(14 * var(--s)); font-weight: 600; letter-spacing: 0.18em; color: #3F5447;
+  }
+  .metric-card-hero .m-sub.gold { color: #9B8A3E; }
+
+  /* Tablet landscape < 1200px: grid tiga zona (salinan | tangan | kartu) */
+  @media (max-width: 1199px) and (orientation: landscape) {
+    .hero-stage {
+      display: grid; grid-template-columns: 1fr 0.9fr 1fr; grid-template-rows: auto 1fr;
+      align-items: stretch;
+    }
+    .hero-header { position: relative; grid-column: 1 / -1; }
+    .hero-copy { position: static; transform: none; align-self: center; padding-left: calc(40 * var(--s)); max-width: none; }
+    .hero-metrics { position: static; transform: none; align-self: center; justify-self: end; padding-right: calc(40 * var(--s)); }
+    .hero-nav { display: none; }
+  }
+
+  /* Potret: salinan, lalu kartu sebaris, lalu tangan memenuhi sisa tinggi */
+  @media (orientation: portrait) {
+    .hero { height: auto; min-height: 0; }
+    .hero-stage { position: relative; display: flex; flex-direction: column; min-height: 100svh; }
+    .hero-header { position: relative; padding: 18px 20px 0; }
+    .hero-logo { font-size: 25px; gap: 9px; }
+    .hero-logo svg { width: 29px; height: 29px; }
+    .hero-nav { display: none; }
+    .hero-copy { position: static; transform: none; max-width: none; padding: 34px 22px 6px; }
+    .hero-eyebrow { font-size: 12px; gap: 8px; }
+    .eyebrow-dot { width: 8px; height: 8px; }
+    .hero-title { font-size: 37px; margin-top: 16px; }
+    .hero-para { font-size: 15.5px; margin-top: 16px; max-width: 480px; }
+    .hero-cta { margin-top: 22px; }
+    .hero-cta .pill { font-size: 15px; padding: 13px 24px; }
+    .hero-metrics {
+      position: static; transform: none; flex-direction: row; gap: 10px;
+      padding: 20px 16px 22px;
+    }
+    .metric-card-hero { flex: 1; width: auto; height: auto; min-height: 104px; border-radius: 16px; padding: 13px 14px; }
+    .metric-card-hero .m-label { font-size: 10.5px; gap: 6px; }
+    .metric-card-hero .m-label svg { width: 15px; height: 15px; }
+    .metric-card-hero .m-value { font-size: 27px; }
+    .metric-card-hero .m-sub { font-size: 10.5px; }
+    .hero-media { position: relative; flex: 1; min-height: 300px; inset: auto; }
+    .hero-layer { left: 0; bottom: 0; width: 100%; height: 100%; transform: none; -webkit-mask-image: none; mask-image: none; }
+    .hero-video { width: 100%; height: 100%; }
+  }
+
+  /* Di bawah 820px: tautan & pill masuk panel menu di balik burger */
+  @media (max-width: 820px) {
+    .hero-nav, .hero-actions { display: none; }
+    .hero-burger { display: inline-flex; margin-left: auto; }
+    .hero-header { flex-wrap: nowrap; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-video { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= HERO ================= -->
+<section class="hero" id="hero">
+  <div class="hero-stage" id="heroStage">
+    <div class="hero-media" aria-hidden="true">
+      <div class="hero-layer hero-photo"></div>
+      <video class="hero-layer hero-video" id="heroVideoA" muted loop playsinline preload="auto"
+             src="https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/e6d15706-f42b-400d-beda-75840834e8bc.mp4"></video>
+      <video class="hero-layer hero-video" id="heroVideoB" muted loop playsinline preload="auto" aria-hidden="true"
+             src="https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/e6d15706-f42b-400d-beda-75840834e8bc.mp4"></video>
+    </div>
+
+    <header class="hero-header">
+      <a class="hero-logo anim" data-anim="head" href="index.html" aria-label="Halora — beranda">
+        <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="16.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-dasharray="3.5 3.1"/><g fill="currentColor"><ellipse cx="20" cy="11.5" rx="2.5" ry="4.4"/><ellipse cx="27.4" cy="16.3" rx="2.5" ry="4.4" transform="rotate(60 27.4 16.3)"/><ellipse cx="27.4" cy="23.7" rx="2.5" ry="4.4" transform="rotate(120 27.4 23.7)"/><ellipse cx="20" cy="28.5" rx="2.5" ry="4.4"/><ellipse cx="12.6" cy="23.7" rx="2.5" ry="4.4" transform="rotate(240 12.6 23.7)"/><ellipse cx="12.6" cy="16.3" rx="2.5" ry="4.4" transform="rotate(300 12.6 16.3)"/></g></svg>
+        <span>Halora</span>
+      </a>
+      <nav class="hero-nav" aria-label="Navigasi utama">
+        <a class="anim" data-anim="head" href="#teknologi">Teknologi</a>
+        <a class="anim" data-anim="head" href="#kesehatan">Kesehatan</a>
+        <a class="anim" data-anim="head" href="produk.html">Aktivitas</a>
+        <a class="anim" data-anim="head" href="tentang.html">Wawasan</a>
+      </nav>
+      <div class="hero-actions">
+        <button class="pill pill-cart anim" data-anim="head" data-open-cart aria-label="Buka keranjang">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h2l2.4 11.2a1.5 1.5 0 0 0 1.5 1.2h7.9a1.5 1.5 0 0 0 1.5-1.2L20.6 8H7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="10.4" cy="20.4" r="1.4" fill="currentColor"/><circle cx="17.6" cy="20.4" r="1.4" fill="currentColor"/></svg>
+          <span>Keranjang</span>
+          <span class="cart-badge" data-cart-count style="display:none">0</span>
+        </button>
+        <a class="pill pill-dark anim" data-anim="head" href="produk.html">Beli Cincin</a>
+      </div>
+      <button class="hero-burger" id="heroBurger" aria-label="Buka menu" aria-expanded="false"><span></span><span></span><span></span></button>
+      <div class="hero-menu" id="heroMenu">
+        <a href="#teknologi">Teknologi</a>
+        <a href="#kesehatan">Kesehatan</a>
+        <a href="produk.html">Aktivitas</a>
+        <a href="tentang.html">Wawasan</a>
+        <button data-open-cart>Keranjang</button>
+        <a href="produk.html">Beli Cincin</a>
+      </div>
+    </header>
+
+    <div class="hero-copy">
+      <span class="hero-eyebrow">
+        <span class="eyebrow-dot anim" data-anim="dot"></span>
+        <span class="anim" data-anim="eyebrow-label">Memantau 24/7</span>
+      </span>
+      <h1 class="hero-title">
+        <span class="h-mask"><span class="h-line">Kenali Tubuhmu.</span></span>
+        <span class="h-mask"><span class="h-line">Ikuti Ritme Tubuhmu.</span></span>
+      </h1>
+      <p class="hero-para anim" data-anim="para">Tidur, pemulihan, stres, detak jantung, dan aktivitas — dipantau terus-menerus dan diubah menjadi wawasan yang benar-benar bisa kamu pakai.</p>
+      <span class="hero-cta anim" data-anim="cta"><a class="pill pill-dark" href="produk.html">Jelajahi Cincinnya</a></span>
+    </div>
+
+    <div class="hero-metrics" aria-label="Contoh metrik kesehatan">
+      <div class="metric-card-hero anim">
+        <span class="m-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M20 13.2A8.2 8.2 0 1 1 10.8 4 6.6 6.6 0 0 0 20 13.2z"/></svg>TIDUR</span>
+        <span class="m-value">7j 42m</span>
+        <span class="m-sub gold">BAIK</span>
+      </div>
+      <div class="metric-card-hero anim">
+        <span class="m-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c1 3-2.2 4.6-2.2 7a2.2 2.2 0 0 0 4.4 0c0-.8-.3-1.5-.7-2.2 2 1.2 3.3 3.1 3.3 5.2A4.8 4.8 0 0 1 12 17.6 4.8 4.8 0 0 1 7.2 12.8C7.2 8.9 11 7.4 12 3z"/><path d="M9.5 21h5"/></svg>KALORI</span>
+        <span class="m-value">1642</span>
+        <span class="m-sub gold">KCAL</span>
+      </div>
+      <div class="metric-card-hero anim">
+        <span class="m-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2-6 4 12 2.5-6H21"/></svg>HRV</span>
+        <span class="m-value">68</span>
+        <span class="m-sub">MS</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Header situs ramping: muncul setelah melewati hero -->
+<header class="site-header hero-header" data-site-header data-hero-header></header>
+
+<main>
+  <!-- Intro merek -->
+  <section class="section" id="intro">
+    <div class="container intro-grid">
+      <div>
+        <span class="eyebrow">Halora</span>
+        <h2 style="font-size:clamp(30px,4vw,44px);margin-bottom:14px">Kecil di jari, besar manfaatnya.</h2>
+        <p style="color:var(--forest-2);font-size:17px">Halora adalah cincin pintar yang bekerja diam-diam sepanjang hari dan malam. Tanpa layar, tanpa notifikasi yang mengganggu — hanya sinyal tubuhmu, dibaca terus-menerus dan diringkas menjadi angka-angka yang masuk akal setiap pagi.</p>
+        <div class="stat-row">
+          <div class="stat"><b>24/7</b><span>Pemantauan</span></div>
+          <div class="stat"><b>20+</b><span>Sinyal tubuh</span></div>
+          <div class="stat"><b>7 hari</b><span>Baterai</span></div>
+        </div>
+      </div>
+      <div class="intro-photo">
+        <span class="photo-crop" style="background-image:url('assets/halora-hero.webp');background-size:309.6774% 387.0968%;background-position:66.6667% 31.1321%;aspect-ratio:620/700;" role="img" aria-label="Tangan mengangkat cincin Halora rose gold"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Teknologi -->
+  <section class="section" id="teknologi" style="background:var(--sage-soft)">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Teknologi</span>
+        <h2>Sensor serius, dalam cincin yang nyaris tak terasa.</h2>
+        <p>Di balik pita dalam hitamnya, Halora membaca tubuhmu ratusan kali per detik — lalu meredam semua kerumitan itu menjadi wawasan sederhana.</p>
+      </div>
+      <div class="tech-grid">
+        <article class="tech-card">
+          <h3>Sensor optik presisi</h3>
+          <p>LED dan fotodioda kelas medis membaca detak jantung, HRV, oksigen darah, dan laju napas dari jari — titik sinyal terkuat di tubuhmu.</p>
+        </article>
+        <article class="tech-card">
+          <h3>Suhu &amp; gerak</h3>
+          <p>Sensor suhu kulit dan akselerometer 3-sumbu menangkap perubahan kecil: awal demam, malam yang gelisah, sampai langkah terakhir sebelum tidur.</p>
+        </article>
+        <article class="tech-card">
+          <h3>Wawasan, bukan sekadar data</h3>
+          <p>Aplikasi Halora mengubah sinyal mentah menjadi Skor Kesiapan, Skor Tidur, dan tren stres — lengkap dengan saran yang bisa langsung kamu lakukan.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Kesehatan -->
+  <section class="section" id="kesehatan">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Kesehatan</span>
+        <h2>Pagi yang dimulai dengan angka yang jelas.</h2>
+        <p>Tiga angka ini menyambutmu setiap pagi — contoh tampilan dari aplikasi Halora.</p>
+      </div>
+      <div class="metric-cards">
+        <article class="metric-card">
+          <span class="m-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M20 13.2A8.2 8.2 0 1 1 10.8 4 6.6 6.6 0 0 0 20 13.2z"/></svg>TIDUR</span>
+          <div class="m-value">7j 42m</div>
+          <span class="m-sub gold">BAIK</span>
+          <p>Tahap tidur nyenyak, ringan, dan REM dibaca sepanjang malam, termasuk efisiensi dan waktu tidur idealmu.</p>
+        </article>
+        <article class="metric-card">
+          <span class="m-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c1 3-2.2 4.6-2.2 7a2.2 2.2 0 0 0 4.4 0c0-.8-.3-1.5-.7-2.2 2 1.2 3.3 3.1 3.3 5.2A4.8 4.8 0 0 1 12 17.6 4.8 4.8 0 0 1 7.2 12.8C7.2 8.9 11 7.4 12 3z"/><path d="M9.5 21h5"/></svg>KALORI</span>
+          <div class="m-value">1642</div>
+          <span class="m-sub gold">KCAL</span>
+          <p>Pengeluaran energi harian dari gerak dan detak jantungmu — bukan tebakan dari jumlah langkah semata.</p>
+        </article>
+        <article class="metric-card">
+          <span class="m-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2-6 4 12 2.5-6H21"/></svg>HRV</span>
+          <div class="m-value">68</div>
+          <span class="m-sub">MS</span>
+          <p>Variabilitas detak jantung adalah jendela ke pemulihan dan stresmu. Trennya lebih penting daripada satu angka.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Produk unggulan -->
+  <section class="section" id="produk" style="background:var(--sage-soft)">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Produk Unggulan</span>
+        <h2>Satu cincin, tiga karakter.</h2>
+        <p>Pilih finishing yang paling cocok denganmu. Sensor, baterai, dan fiturnya sama persis.</p>
+      </div>
+      <div class="product-grid" id="featuredGrid"></div>
+      <p style="text-align:center;margin-top:34px"><a class="btn btn-dark" href="produk.html">Lihat Semua Produk</a></p>
+    </div>
+  </section>
+
+  <!-- Testimoni -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head center">
+        <span class="eyebrow">Testimoni</span>
+        <h2>Kata mereka yang sudah memakai.</h2>
+      </div>
+      <div class="testi-grid">
+        <article class="testi-card">
+          <div class="card-stars">★★★★★</div>
+          <p>"Skor Kesiapan tiap pagi mengubah caraku menjadwalkan latihan. Akhirnya aku tahu kapan harus mendorong dan kapan harus istirahat."</p>
+          <footer>— Nadia, pelari maraton, Jakarta</footer>
+        </article>
+        <article class="testi-card">
+          <div class="card-stars">★★★★★</div>
+          <p>"Aku tidak tahan memakai jam saat tidur. Cincin ini tidak terasa sama sekali, tapi data tidurnya lengkap banget."</p>
+          <footer>— Bima, desainer produk, Bandung</footer>
+        </article>
+        <article class="testi-card">
+          <div class="card-stars">★★★★★</div>
+          <p>"Peringatan tren suhu kulitnya membantuku sadar lebih awal sebelum flu. Kecil-kecil ternyata teliti."</p>
+          <footer>— Sinta, dokter umum, Surabaya</footer>
+        </article>
+      </div>
+      <p class="testi-note">Testimoni di atas adalah contoh untuk keperluan demo.</p>
+    </div>
+  </section>
+
+  <!-- Newsletter -->
+  <section class="section" style="padding-top:0">
+    <div class="container">
+      <div class="newsletter-box">
+        <h2>Satu email sehat, tiap Minggu pagi.</h2>
+        <p>Tips tidur, pemulihan, dan mengelola stres — diringkas dari riset terbaru. Tanpa spam, berhenti kapan saja.</p>
+        <form class="newsletter-form" id="newsletterForm" novalidate>
+          <input type="email" placeholder="Alamat email kamu" aria-label="Alamat email" required>
+          <button class="btn" type="submit" style="background:var(--olive);color:#fff">Berlangganan</button>
+          <p class="form-msg" role="status"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section" style="padding-top:0">
+    <div class="container">
+      <div class="section-head center">
+        <span class="eyebrow">FAQ</span>
+        <h2>Sering Ditanyakan</h2>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button type="button">Bagaimana cara menentukan ukuran cincin saya?</button>
+          <div class="faq-answer">Setiap pesanan cincin diawali kit pengukur ukuran gratis. Pakai selama sehari untuk menemukan ukuran yang pas, konfirmasi di aplikasi, dan cincin aslimu kami kirim setelahnya.</div>
+        </div>
+        <div class="faq-item">
+          <button type="button">Apakah Halora tahan air?</button>
+          <div class="faq-answer">Ya, Halora tahan air hingga 10 ATM — aman untuk mandi, berenang, dan berolahraga di hujan.</div>
+        </div>
+        <div class="faq-item">
+          <button type="button">Berapa lama baterainya bertahan?</button>
+          <div class="faq-answer">Sekali isi penuh bertahan hingga 7 hari pemakaian biasa, dan dock USB-C mengisinya kembali dalam waktu sekitar 60 menit.</div>
+        </div>
+        <div class="faq-item">
+          <button type="button">Apakah perlu berlangganan aplikasi?</button>
+          <div class="faq-answer">Di halaman demo ini semua fitur digambarkan terbuka. Untuk produk sungguhan, wawasan inti tersedia tanpa biaya tambahan apa pun.</div>
+        </div>
+        <div class="faq-item">
+          <button type="button">Bagaimana kebijakan pengembaliannya?</button>
+          <div class="faq-answer">Ada masa coba 30 hari: kalau Halora tidak cocok untukmu, kembalikan dalam kondisi baik untuk pengembalian dana penuh. (Kebijakan contoh untuk demo.)</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer" data-site-footer></footer>
+
+<script>
+/* ============ HERO: skala, video latar, animasi masuk ============ */
+(function () {
+  var stage = document.getElementById("heroStage");
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function fit() {
+    var vw = window.innerWidth, vh = window.innerHeight;
+    var s = Math.min(vw / 2048, vh / 1152);
+    if (vw > 820) s = Math.max(s, 0.55);
+    stage.style.setProperty("--s", s.toFixed(4));
+  }
+  fit();
+  window.addEventListener("resize", fit);
+
+  /* Menu burger (<= 820px) */
+  var burger = document.getElementById("heroBurger");
+  var menu = document.getElementById("heroMenu");
+  burger.addEventListener("click", function () {
+    var open = menu.classList.toggle("open");
+    burger.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+  menu.addEventListener("click", function (e) {
+    if (e.target.closest("a")) menu.classList.remove("open");
+  });
+
+  /* --- Video latar: dua elemen bergantian agar putaran menyilang halus --- */
+  var VIDEO_LEN = 4.041667, XFADE_LEAD = 1.0;
+  var vids = [document.getElementById("heroVideoA"), document.getElementById("heroVideoB")];
+  var active = 0, swapTimer = null, videoStarted = false;
+  function scheduleSwap() {
+    clearTimeout(swapTimer);
+    swapTimer = setTimeout(swapVideos, Math.max(200, (VIDEO_LEN - XFADE_LEAD) * 1000));
+  }
+  function swapVideos() {
+    var cur = vids[active], nxt = vids[1 - active];
+    try { nxt.currentTime = 0; } catch (e) {}
+    var p = nxt.play(); if (p && p.catch) p.catch(function () {});
+    nxt.classList.add("on");
+    cur.classList.remove("on");
+    active = 1 - active;
+    scheduleSwap();
+  }
+  function startVideo() {
+    if (reduced || videoStarted) return;
+    videoStarted = true;
+    var v = vids[0];
+    var begin = function () {
+      v.classList.add("on");
+      var p = v.play(); if (p && p.catch) p.catch(function () {});
+      scheduleSwap();
+    };
+    if (v.readyState >= 3) begin();
+    else v.addEventListener("canplay", begin, { once: true });
+  }
+
+  /* --- Animasi masuk: satu linimasa WAAPI, fill backwards, lalu dibatalkan --- */
+  function startEntrance() {
+    document.documentElement.classList.remove("hero-pre");
+    if (reduced) { startVideo(); return; }
+    var ease = "cubic-bezier(.22,.8,.3,1)";
+    var anims = [];
+    function anim(el, frames, delay, duration) {
+      if (!el) return;
+      anims.push(el.animate(frames, { duration: duration, delay: delay, fill: "backwards", easing: ease }));
+    }
+    stage.querySelectorAll("[data-anim='head']").forEach(function (el, i) {
+      anim(el, [{ transform: "translateY(-26px)", opacity: 0 }, { transform: "translateY(0)", opacity: 1 }], 60 + i * 90, 700);
+    });
+    anim(stage.querySelector("[data-anim='dot']"),
+      [{ clipPath: "circle(0% at 50% 50%)", opacity: 1 }, { clipPath: "circle(75% at 50% 50%)", opacity: 1 }], 380, 550);
+    anim(stage.querySelector("[data-anim='eyebrow-label']"),
+      [{ opacity: 0, transform: "translateX(-8px)" }, { opacity: 1, transform: "translateX(0)" }], 500, 600);
+    stage.querySelectorAll(".h-line").forEach(function (el, i) {
+      anim(el, [{ transform: "translateY(110%)" }, { transform: "translateY(0)" }], 430 + i * 130, 900);
+    });
+    anim(stage.querySelector("[data-anim='para']"),
+      [{ opacity: 0, transform: "translateY(16px)" }, { opacity: 1, transform: "translateY(0)" }], 820, 800);
+    anim(stage.querySelector("[data-anim='cta']"),
+      [{ opacity: 0, transform: "translateY(16px)" }, { opacity: 1, transform: "translateY(0)" }], 940, 800);
+    stage.querySelectorAll(".metric-card-hero").forEach(function (el, i) {
+      anim(el, [{ opacity: 0, transform: "translateY(34px)" }, { opacity: 1, transform: "translateY(0)" }], 720 + i * 140, 850);
+    });
+    startVideo();
+    Promise.all(anims.map(function (a) { return a.finished; })).then(function () {
+      anims.forEach(function (a) { a.cancel(); });
+    }, function () {});
+  }
+
+  if (reduced) { startEntrance(); return; }
+  var fontsReady = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
+  var photoReady = new Promise(function (resolve) {
+    var im = new Image();
+    im.onload = im.onerror = function () { resolve(); };
+    im.src = "assets/halora-hero.webp";
+  });
+  var failsafe = new Promise(function (resolve) { setTimeout(resolve, 3500); });
+  Promise.race([Promise.all([fontsReady, photoReady]), failsafe]).then(startEntrance);
+})();
+</script>
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/components.js"></script>
+<script src="js/app.js"></script>
+<script src="js/checkout.js"></script>
+</body>
+</html>

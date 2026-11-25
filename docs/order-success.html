@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pesanan Berhasil — Halora</title>
+<meta name="description" content="Pesanan demo Halora berhasil dibuat.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+<header class="site-header" data-site-header></header>
+<main>
+  <section class="section">
+    <div class="container">
+      <div class="success-box" id="successBox">
+        <div class="check">✓</div>
+        <span class="eyebrow" style="justify-content:center">Pesanan Demo Berhasil</span>
+        <h1 style="font-size:clamp(30px,4vw,42px);margin-bottom:8px">Terima kasih!</h1>
+        <p style="color:var(--forest-2)">Nomor pesananmu: <strong id="successOrderId">—</strong></p>
+        <div class="summary-card" style="text-align:left;margin-top:26px">
+          <ul class="success-items" id="successItems" style="margin:0"></ul>
+          <div class="drawer-row total" style="margin-top:10px"><span>Total</span><strong id="successTotal">Rp0</strong></div>
+          <p id="successMeta" style="color:var(--forest-2);font-size:14.5px;margin-top:14px;line-height:1.9"></p>
+        </div>
+        <p style="margin-top:24px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+          <a class="btn btn-dark" href="produk.html">Belanja Lagi</a>
+          <a class="btn btn-ghost" href="akun.html">Lihat Riwayat Pesanan</a>
+        </p>
+        <p style="color:var(--forest-2);font-size:13.5px;margin-top:16px">Ini pesanan simulasi — tidak ada barang yang dikirim dan tidak ada pembayaran yang terjadi.</p>
+      </div>
+    </div>
+  </section>
+</main>
+<footer class="site-footer" data-site-footer></footer>
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/components.js"></script>
+<script src="js/app.js"></script>
+<script src="js/checkout.js"></script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Masuk — Halora</title>
+<meta name="description" content="Masuk ke akun demo Halora.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+<header class="site-header" data-site-header></header>
+<main>
+  <section class="section">
+    <div class="container" style="display:flex;justify-content:center">
+      <form class="form-card" id="loginForm" novalidate style="width:100%">
+        <span class="eyebrow">Akun Demo</span>
+        <h1 style="font-size:30px;margin-bottom:8px">Selamat datang kembali</h1>
+        <p style="color:var(--forest-2);margin-bottom:22px">Masuk dengan email yang kamu daftarkan di perangkat ini.</p>
+        <div class="field">
+          <label for="lEmail">Email</label>
+          <input id="lEmail" name="email" type="email" placeholder="nama@email.com" required>
+        </div>
+        <div class="field">
+          <label for="lPass">Kata sandi</label>
+          <input id="lPass" name="password" type="password" placeholder="Kata sandi kamu" required>
+        </div>
+        <button class="btn btn-dark btn-block" type="submit">Masuk</button>
+        <p class="form-msg" role="status"></p>
+        <p style="font-size:14px;color:var(--forest-2);margin-top:10px">
+          <a href="#" data-forgot>Lupa kata sandi?</a> · Belum punya akun? <a href="daftar.html">Daftar</a>
+        </p>
+        <div id="forgotPanel" style="display:none;margin-top:14px;border-top:1px solid var(--line);padding-top:14px">
+          <p style="font-size:14px;color:var(--forest-2)">Di versi demo ini tidak ada email pemulihan yang dikirim. Karena akun hanya tersimpan di perangkat ini, cukup <a href="daftar.html">daftar ulang</a> dengan email yang sama untuk masuk kembali.</p>
+        </div>
+      </form>
+    </div>
+  </section>
+</main>
+<footer class="site-footer" data-site-footer></footer>
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/components.js"></script>
+<script src="js/app.js"></script>
+<script src="js/checkout.js"></script>
+</body>
+</html>

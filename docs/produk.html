@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Produk — Halora</title>
+<meta name="description" content="Belanja Halora Ring dalam tiga finishing dan aksesori resminya. Demo etalase — tidak ada transaksi sungguhan.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+<header class="site-header" data-site-header></header>
+<main>
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow">Produk</span>
+      <h1>Halora Ring &amp; Aksesori</h1>
+      <p>Tiga finishing, satu rangkaian sensor yang sama. Ukuran 6–13 tersedia untuk setiap cincin, dan kit pengukur ukuran selalu dikirim gratis lebih dulu.</p>
+    </div>
+  </section>
+  <section class="section" style="padding-top:26px">
+    <div class="container">
+      <div class="shop-tools">
+        <div class="filter-chips" role="group" aria-label="Filter produk">
+          <button class="chip active" data-shop-filter="semua">Semua</button>
+          <button class="chip" data-shop-filter="cincin">Cincin</button>
+          <button class="chip" data-shop-filter="Rose Gold">Rose Gold</button>
+          <button class="chip" data-shop-filter="Perak">Perak</button>
+          <button class="chip" data-shop-filter="Hitam">Hitam</button>
+          <button class="chip" data-shop-filter="aksesori">Aksesori</button>
+        </div>
+        <input class="shop-search" id="shopSearch" type="search" placeholder="Cari produk…" aria-label="Cari produk">
+        <select class="shop-sort" id="shopSort" aria-label="Urutkan produk">
+          <option value="unggulan">Unggulan</option>
+          <option value="harga-rendah">Harga: Rendah ke Tinggi</option>
+          <option value="harga-tinggi">Harga: Tinggi ke Rendah</option>
+          <option value="rating">Rating Tertinggi</option>
+        </select>
+      </div>
+      <p class="shop-count" id="shopCount"></p>
+      <div class="product-grid" id="shopGrid"></div>
+      <p style="margin-top:30px;color:var(--forest-2);font-size:14px">Gunakan kode <strong>HALORA10</strong> saat checkout demo untuk diskon 10%.</p>
+    </div>
+  </section>
+</main>
+<footer class="site-footer" data-site-footer></footer>
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/components.js"></script>
+<script src="js/app.js"></script>
+<script src="js/checkout.js"></script>
+</body>
+</html>

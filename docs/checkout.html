@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Checkout — Halora</title>
+<meta name="description" content="Checkout demo Halora. Semua pembayaran adalah simulasi.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+<header class="site-header" data-site-header></header>
+<main>
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow">Checkout</span>
+      <h1>Selesaikan Pesananmu</h1>
+      <p>Ini checkout demo — tidak ada pembayaran sungguhan dan tidak ada data yang dikirim ke mana pun.</p>
+    </div>
+  </section>
+  <section class="section" style="padding-top:30px">
+    <div class="container two-col">
+      <form class="form-card wide" id="checkoutForm" novalidate style="max-width:none">
+        <h3 style="margin-bottom:18px">Data Pengiriman</h3>
+        <div class="form-row">
+          <div class="field">
+            <label for="cNama">Nama lengkap</label>
+            <input id="cNama" name="nama" type="text" placeholder="Nama penerima" required>
+          </div>
+          <div class="field">
+            <label for="cEmail">Email</label>
+            <input id="cEmail" name="email" type="email" placeholder="nama@email.com" required>
+          </div>
+        </div>
+        <div class="field">
+          <label for="cTelepon">Nomor telepon / WhatsApp</label>
+          <input id="cTelepon" name="telepon" type="tel" placeholder="0812…" required>
+        </div>
+        <div class="field">
+          <label for="cAlamat">Alamat</label>
+          <input id="cAlamat" name="alamat" type="text" placeholder="Jalan, nomor rumah, RT/RW" required>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label for="cKota">Kota</label>
+            <input id="cKota" name="kota" type="text" placeholder="Kota" required>
+          </div>
+          <div class="field">
+            <label for="cPos">Kode pos</label>
+            <input id="cPos" name="kodepos" type="text" inputmode="numeric" placeholder="12345" required>
+          </div>
+        </div>
+
+        <h3 style="margin:22px 0 14px">Metode Pembayaran (simulasi)</h3>
+        <div class="pay-options">
+          <label class="pay-option">
+            <input type="radio" name="pembayaran" value="Transfer Bank">
+            <span><strong>Transfer Bank</strong><small>Instruksi transfer akan ditampilkan setelah pesanan dibuat. Simulasi — jangan mentransfer apa pun.</small></span>
+          </label>
+          <label class="pay-option">
+            <input type="radio" name="pembayaran" value="E-Wallet">
+            <span><strong>E-Wallet</strong><small>Bayar lewat dompet digital favoritmu. Simulasi — tidak ada saldo yang terpotong.</small></span>
+          </label>
+          <label class="pay-option">
+            <input type="radio" name="pembayaran" value="COD">
+            <span><strong>COD (Bayar di Tempat)</strong><small>Bayar tunai saat paket tiba. Simulasi untuk keperluan demo.</small></span>
+          </label>
+        </div>
+
+        <button class="btn btn-dark btn-block" type="submit" style="margin-top:22px">Buat Pesanan</button>
+        <p class="form-msg" role="status"></p>
+      </form>
+
+      <div class="summary-card">
+        <h3>Ringkasan Pesanan</h3>
+        <div id="summaryItems"></div>
+        <div class="field" style="margin-top:20px">
+          <label for="voucherInput">Kode voucher</label>
+          <div class="voucher-row">
+            <input id="voucherInput" type="text" placeholder="Mis. HALORA10">
+            <button class="btn btn-ghost" type="button" id="applyVoucher">Pakai</button>
+          </div>
+          <p class="form-msg" id="voucherMsg" role="status"></p>
+        </div>
+        <div class="drawer-row"><span>Subtotal</span><strong id="summarySubtotal">Rp0</strong></div>
+        <div class="drawer-row" id="summaryDiscountRow" style="display:none"><span>Diskon voucher</span><strong id="summaryDiscount">−Rp0</strong></div>
+        <div class="drawer-row total"><span>Total</span><strong id="summaryTotal">Rp0</strong></div>
+      </div>
+    </div>
+  </section>
+</main>
+<footer class="site-footer" data-site-footer></footer>
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/components.js"></script>
+<script src="js/app.js"></script>
+<script src="js/checkout.js"></script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+/* Halora — penyesuaian responsif untuk halaman-halaman situs (bukan hero). */
+@media (max-width: 1020px) {
+  .product-grid { grid-template-columns: repeat(2, 1fr); }
+  .tech-grid, .testi-grid, .metric-cards { grid-template-columns: 1fr 1fr; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .intro-grid { grid-template-columns: 1fr; gap: 36px; }
+  .two-col { grid-template-columns: 1fr; }
+}
+@media (max-width: 820px) {
+  .site-nav { display: none; }
+  .site-cta { display: none; }
+  .site-burger { display: flex; }
+  .section { padding: 64px 0; }
+  .modal-box { grid-template-columns: 1fr; }
+  .modal-media { min-height: 240px; max-height: 300px; }
+  .modal-media .photo-crop { height: 300px; }
+  .newsletter-box { padding: 38px 24px; }
+  .newsletter-form { flex-direction: column; }
+}
+@media (max-width: 560px) {
+  .product-grid { grid-template-columns: 1fr; }
+  .tech-grid, .testi-grid, .metric-cards { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+  .form-row { grid-template-columns: 1fr; }
+  .form-card { padding: 26px 22px; }
+  .rec-row { grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+  .stat-row { gap: 22px; }
+  .container { width: calc(100% - 36px); }
+  .site-header-inner { width: calc(100% - 36px); }
+  .footer-grid, .footer-bottom { width: calc(100% - 36px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}

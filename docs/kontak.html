@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kontak — Halora</title>
+<meta name="description" content="Hubungi tim Halora untuk pertanyaan produk, ukuran, dan pesanan.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+<header class="site-header" data-site-header></header>
+<main>
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow">Kontak</span>
+      <h1>Halo, kami dengar.</h1>
+      <p>Pertanyaan soal ukuran, pesanan, atau sekadar ingin tahu lebih banyak tentang tidurmu — tim kami membalas pada hari kerja.</p>
+    </div>
+  </section>
+  <section class="section" style="padding-top:30px">
+    <div class="container two-col">
+      <form class="form-card wide" id="contactForm" novalidate style="max-width:none">
+        <div class="form-row">
+          <div class="field">
+            <label for="kNama">Nama</label>
+            <input id="kNama" name="nama" type="text" placeholder="Nama kamu" required>
+          </div>
+          <div class="field">
+            <label for="kEmail">Email</label>
+            <input id="kEmail" name="email" type="email" placeholder="nama@email.com" required>
+          </div>
+        </div>
+        <div class="field">
+          <label for="kPesan">Pesan</label>
+          <textarea id="kPesan" name="pesan" placeholder="Tulis pesanmu di sini…" required></textarea>
+        </div>
+        <button class="btn btn-dark" type="submit">Kirim Pesan</button>
+        <p class="form-msg" role="status"></p>
+      </form>
+      <div class="summary-card">
+        <h3>Kontak langsung</h3>
+        <p style="color:var(--forest-2);line-height:2">
+          Email: halo@halora.example<br>
+          WhatsApp: 0812-3456-7890<br>
+          Studio: Jl. Cemara No. 8, Jakarta Selatan<br>
+          Jam layanan: Senin–Jumat, 09.00–17.00 WIB
+        </p>
+        <p style="color:var(--forest-2);margin-top:14px;font-size:14px">Alamat dan nomor di halaman ini adalah contoh untuk keperluan demo.</p>
+      </div>
+    </div>
+  </section>
+</main>
+<footer class="site-footer" data-site-footer></footer>
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/components.js"></script>
+<script src="js/app.js"></script>
+<script src="js/checkout.js"></script>
+</body>
+</html>
