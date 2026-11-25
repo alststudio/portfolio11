@@ -125,11 +125,11 @@ h1, h2, h3, h4 { line-height: 1.2; font-weight: 600; letter-spacing: -0.01em; }
 .site-header.menu-open .site-mobile-menu { display: flex; }
 
 /* Header khusus beranda (muncul setelah hero) */
-.hero-header {
+.site-header[data-hero-header] {
   position: fixed; top: 0; left: 0; right: 0; z-index: 70;
   transform: translateY(-110%); transition: transform 0.5s var(--ease);
 }
-.hero-header.visible { transform: translateY(0); }
+.site-header[data-hero-header].visible { transform: translateY(0); }
 
 /* ---------- Footer ---------- */
 .site-footer { background: var(--forest); color: #D8DECB; margin-top: 0; }
