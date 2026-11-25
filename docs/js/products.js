@@ -1,7 +1,12 @@
 /* Halora — data produk terpusat
    Semua harga dalam Rupiah. Visual cincin adalah potongan (crop) foto hero
-   assets/halora-hero.webp (1920 x 1084); aksesori memakai ilustrasi SVG. */
+   (1920 x 1084): Rose Gold dari assets/halora-hero.webp; Perak dan Hitam
+   dari varian foto yang sama dengan finishing cincin diganti
+   (assets/halora-hero-perak.webp / halora-hero-hitam.webp, dibuat
+   2026-11-25 atas permintaan user). Aksesori memakai ilustrasi SVG. */
 var HERO_IMG = "assets/halora-hero.webp";
+var IMG_PERAK = "assets/halora-hero-perak.webp";
+var IMG_HITAM = "assets/halora-hero-hitam.webp";
 var PHOTO_W = 1920, PHOTO_H = 1084;
 
 /* Kotak potong pada foto hero: [x, y, lebar, tinggi] dalam piksel foto.
@@ -25,7 +30,7 @@ var PRODUCTS = [
     id: 2, slug: "halora-perak", name: "Halora Ring — Perak",
     category: "cincin", finish: "Perak",
     price: 4899000, promoPrice: null, rating: 4.8, reviews: 98, badge: "",
-    visual: "photo", crop: CROP_RING_HAND,
+    visual: "photo", crop: CROP_RING, img: IMG_PERAK,
     tagline: "Perak dipoles cermin, tenang dan serbaguna.",
     desc: "Sensor dan fitur yang sama dengan finishing perak klasik. Bodi titanium ringan, pita dalam hitam matte, tahan air 10 ATM, dan baterai hingga 7 hari untuk pemantauan 24/7 tanpa terasa memakai apa pun."
   },
@@ -33,7 +38,7 @@ var PRODUCTS = [
     id: 3, slug: "halora-hitam", name: "Halora Ring — Hitam",
     category: "cincin", finish: "Hitam",
     price: 4899000, promoPrice: null, rating: 4.9, reviews: 57, badge: "Baru",
-    visual: "photo", crop: CROP_HAND,
+    visual: "photo", crop: CROP_RING, img: IMG_HITAM,
     tagline: "Hitam matte yang tegas, tetap ringan di jari.",
     desc: "Edisi hitam matte dengan rangkaian sensor lengkap Halora: tahap tidur, HRV, suhu kulit, dan skor kesiapan harian. Bodi titanium, tahan air 10 ATM, baterai hingga 7 hari."
   },
@@ -78,12 +83,12 @@ function sizeLabel(size) { return size === "std" ? "Standar" : "Ukuran " + size;
    PENTING: url('...') memakai kutip tunggal — atribut style pada HTML yang
    dibuat lewat JS dibatasi kutip ganda, jadi kutip ganda di dalam url()
    akan memutus atribut dan gambar hilang. */
-function cropStyle(box) {
+function cropStyle(box, img) {
   var sx = (PHOTO_W / box.w * 100).toFixed(4);
   var sy = (PHOTO_H / box.h * 100).toFixed(4);
   var px = PHOTO_W === box.w ? 0 : (box.x / (PHOTO_W - box.w) * 100).toFixed(4);
   var py = PHOTO_H === box.h ? 0 : (box.y / (PHOTO_H - box.h) * 100).toFixed(4);
-  return "background-image:url('" + HERO_IMG + "');background-size:" + sx + "% " + sy +
+  return "background-image:url('" + (img || HERO_IMG) + "');background-size:" + sx + "% " + sy +
     "%;background-position:" + px + "% " + py + "%;aspect-ratio:" + box.w + "/" + box.h + ";";
 }
 
@@ -112,7 +117,7 @@ function accessorySVG(kind) {
 /* HTML visual produk: foto crop untuk cincin, SVG untuk aksesori. */
 function productVisual(p, cls) {
   if (p.visual === "photo") {
-    return '<span class="' + cls + ' photo-crop" style="' + cropStyle(p.crop) + '" role="img" aria-label="' + p.name + '"></span>';
+    return '<span class="' + cls + ' photo-crop" style="' + cropStyle(p.crop, p.img) + '" role="img" aria-label="' + p.name + '"></span>';
   }
   return '<span class="' + cls + ' svg-visual">' + accessorySVG(p.visual) + "</span>";
 }
